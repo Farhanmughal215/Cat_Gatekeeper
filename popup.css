@@ -1,0 +1,313 @@
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Siamese Cat Gatekeeper — Popup
+   #fdf5ec  Soft Cream · #5a3114  Warm Brown · #bbddd3  Mint · #e79eae  Pink
+═══════════════════════════════════════════════════════════════════════════════ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  width: 320px;
+  background: linear-gradient(160deg, #fdf5ec 0%, #eddcbe 100%);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  color: #5a3114;
+  overflow: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Header ─────────────────────────────────────────────────────────────────── */
+
+#header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px 13px;
+  position: relative;
+}
+
+#header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 16px; right: 16px;
+  height: 1px;
+  background: rgba(90, 49, 20, 0.10);
+}
+
+#header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+#header-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 9px;
+  object-fit: cover;
+  flex-shrink: 0;
+  background: transparent;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+}
+
+#header-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+#header-title {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #5a3114;
+  letter-spacing: 0.1px;
+}
+
+#header-sub {
+  font-size: 10px;
+  color: #5a3114;
+  opacity: 0.40;
+  letter-spacing: 0.2px;
+}
+
+/* ── Mode + Timer card ──────────────────────────────────────────────────────── */
+
+#mode-card {
+  margin: 12px 12px 0;
+  background: rgba(255, 255, 255, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.80);
+  border-radius: 20px;
+  padding: 0 16px 16px;
+  text-align: center;
+  box-shadow:
+    0 4px 20px rgba(90, 49, 20, 0.10),
+    inset 0 1px 0 rgba(255, 255, 255, 0.90);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Gradient accent bar at top of mode card */
+#mode-card::before {
+  content: '';
+  display: block;
+  height: 3px;
+  margin: 0 -16px 14px;
+  background: linear-gradient(90deg, #bbddd3 0%, #e79eae 50%, #bbddd3 100%);
+}
+
+#mode-top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  margin-bottom: 6px;
+}
+
+#mode-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: #bbddd3;
+  transition: background 0.3s;
+}
+
+.badge-work, .badge-break {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-transform: uppercase;
+}
+
+.badge-work  {
+  background: rgba(187, 221, 211, 0.45);
+  color: #1c5e52;
+}
+
+.badge-break {
+  background: rgba(231, 158, 174, 0.45);
+  color: #7a2640;
+}
+
+#time-display {
+  font-size: 54px;
+  font-weight: 800;
+  color: #5a3114;
+  letter-spacing: 4px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  margin: 6px 0 5px;
+}
+
+#mode-label {
+  font-size: 11px;
+  color: #5a3114;
+  opacity: 0.48;
+  letter-spacing: 0.2px;
+}
+
+/* ── Stats cards ────────────────────────────────────────────────────────────── */
+
+#stats-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin: 8px 12px 0;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 14px;
+  padding: 11px 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  box-shadow: 0 2px 8px rgba(90, 49, 20, 0.07);
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: #5a3114;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 9px;
+  color: #5a3114;
+  opacity: 0.48;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+.score-green  { color: #1e7a4a !important; }
+.score-yellow { color: #8a6500 !important; }
+.score-red    { color: #b83232 !important; }
+
+/* ── Daily goal progress ────────────────────────────────────────────────────── */
+
+#goal-section {
+  margin: 8px 12px 0;
+  background: rgba(255, 255, 255, 0.60);
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 14px;
+  padding: 10px 12px;
+  box-shadow: 0 2px 8px rgba(90, 49, 20, 0.07);
+}
+
+#goal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+#goal-label {
+  font-size: 9px;
+  font-weight: 700;
+  color: #5a3114;
+  opacity: 0.50;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+}
+
+#goal-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: #5a3114;
+}
+
+#goal-bar-track {
+  height: 5px;
+  background: rgba(90, 49, 20, 0.10);
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+#goal-bar-fill {
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #bbddd3, #e79eae);
+  transition: width 0.5s ease;
+  width: 0%;
+}
+
+/* ── Action buttons ─────────────────────────────────────────────────────────── */
+
+#actions {
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 11px;
+  background: linear-gradient(135deg, #5a3114 0%, #7c4720 100%);
+  color: #fdf5ec;
+  border: none;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  letter-spacing: 0.2px;
+  box-shadow:
+    0 6px 18px rgba(90, 49, 20, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  transition: opacity 0.18s, transform 0.1s;
+}
+
+.btn-primary:hover  { opacity: 0.88; }
+.btn-primary:active { transform: scale(0.98); }
+
+#btn-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+}
+
+.btn-secondary {
+  padding: 9px;
+  background: rgba(255, 255, 255, 0.58);
+  color: #5a3114;
+  border: 1px solid rgba(90, 49, 20, 0.16);
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.18s, border-color 0.18s;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(90, 49, 20, 0.28);
+}
+
+/* ── Footer ─────────────────────────────────────────────────────────────────── */
+
+#footer {
+  padding: 9px 16px 11px;
+  text-align: center;
+  border-top: 1px solid rgba(90, 49, 20, 0.07);
+}
+
+#footer-link {
+  font-size: 10.5px;
+  color: #5A3114;
+  text-decoration: none;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  transition: color 0.18s;
+}
+
+#footer-link:hover {
+  color: #5a3114;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}

@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Options — Siamese Cat Gatekeeper</title>
+  <style>
+    /* ── Reset & base ──────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: #f0e8db;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      color: #5a3114;
+      min-height: 100vh;
+      padding: 32px 16px 48px;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Page wrapper ──────────────────────────────────────────────────────── */
+    #page {
+      max-width: 580px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* ── Header ────────────────────────────────────────────────────────────── */
+    #page-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid transparent;
+      border-image: linear-gradient(90deg, #bbddd3, #e79eae) 1;
+    }
+
+    #page-header img {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    #page-header h1 {
+      font-size: 20px;
+      font-weight: 800;
+      color: #5a3114;
+    }
+
+    #page-header p {
+      font-size: 12px;
+      color: #5a3114;
+      opacity: 0.55;
+      margin-top: 1px;
+    }
+
+    /* ── Card ──────────────────────────────────────────────────────────────── */
+    .card {
+      background: #fdf5ec;
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      box-shadow: 0 2px 12px rgba(90, 49, 20, 0.10);
+    }
+
+    .card-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: #5a3114;
+      opacity: 0.55;
+      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(90, 49, 20, 0.10);
+    }
+
+    /* ── Form rows ─────────────────────────────────────────────────────────── */
+    .form-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .form-row-inline {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #5a3114;
+    }
+
+    .hint {
+      font-size: 11.5px;
+      color: #5a3114;
+      opacity: 0.50;
+      margin-top: 2px;
+    }
+
+    /* ── Number input ──────────────────────────────────────────────────────── */
+    .input-number-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    input[type="number"] {
+      width: 80px;
+      padding: 8px 10px;
+      border: 1.5px solid rgba(90, 49, 20, 0.20);
+      border-radius: 8px;
+      background: #fdf5ec;
+      color: #5a3114;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.18s;
+      -moz-appearance: textfield;
+    }
+
+    input[type="number"]:focus {
+      border-color: #e79eae;
+    }
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+      opacity: 1;
+    }
+
+    /* ── Time input ────────────────────────────────────────────────────────── */
+    input[type="time"] {
+      padding: 8px 10px;
+      border: 1.5px solid rgba(90, 49, 20, 0.20);
+      border-radius: 8px;
+      background: #fdf5ec;
+      color: #5a3114;
+      font-size: 14px;
+      font-weight: 600;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.18s;
+      cursor: pointer;
+    }
+
+    input[type="time"]:focus { border-color: #e79eae; }
+
+    /* ── Goal progress preview ─────────────────────────────────────────────── */
+    .goal-bar-track {
+      height: 6px;
+      background: rgba(90, 49, 20, 0.10);
+      border-radius: 99px;
+      margin-top: 6px;
+      overflow: hidden;
+    }
+
+    .input-unit {
+      font-size: 12px;
+      color: #5a3114;
+      opacity: 0.55;
+    }
+
+    /* ── Mode pill toggle ──────────────────────────────────────────────────── */
+    .mode-toggle-wrap {
+      display: flex;
+      background: rgba(90, 49, 20, 0.08);
+      border-radius: 10px;
+      padding: 3px;
+      gap: 2px;
+      width: fit-content;
+    }
+
+    .mode-toggle-wrap input[type="radio"] { display: none; }
+
+    .mode-toggle-wrap label {
+      padding: 7px 18px;
+      border-radius: 8px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #5a3114;
+      opacity: 0.55;
+      transition: all 0.18s;
+      user-select: none;
+    }
+
+    .mode-toggle-wrap input[type="radio"]:checked + label {
+      background: #5a3114;
+      color: #fdf5ec;
+      opacity: 1;
+    }
+
+    /* ── Textarea ──────────────────────────────────────────────────────────── */
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      padding: 12px;
+      border: 1.5px solid rgba(90, 49, 20, 0.18);
+      border-radius: 10px;
+      background: #fdf5ec;
+      color: #5a3114;
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+      line-height: 1.7;
+      resize: vertical;
+      outline: none;
+      transition: border-color 0.18s;
+    }
+
+    textarea:focus { border-color: #e79eae; }
+
+    /* ── Toggle switch ─────────────────────────────────────────────────────── */
+    .toggle-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .toggle-switch {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      flex-shrink: 0;
+    }
+
+    .toggle-switch input { display: none; }
+
+    .toggle-track {
+      position: absolute;
+      inset: 0;
+      background: rgba(90, 49, 20, 0.18);
+      border-radius: 24px;
+      cursor: pointer;
+      transition: background 0.22s;
+    }
+
+    .toggle-track::after {
+      content: '';
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      background: #fdf5ec;
+      border-radius: 50%;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.20);
+      transition: transform 0.22s;
+    }
+
+    .toggle-switch input:checked ~ .toggle-track {
+      background: #bbddd3;
+    }
+
+    .toggle-switch input:checked ~ .toggle-track::after {
+      transform: translateX(18px);
+    }
+
+    .toggle-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: #5a3114;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    /* ── Action buttons ────────────────────────────────────────────────────── */
+    #actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .btn-primary {
+      padding: 11px 24px;
+      background: #5a3114;
+      color: #fdf5ec;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.18s, transform 0.1s;
+    }
+
+    .btn-primary:hover  { background: #7a4824; }
+    .btn-primary:active { transform: scale(0.97); }
+
+    .btn-outline {
+      padding: 11px 20px;
+      background: transparent;
+      color: #5a3114;
+      border: 1.5px solid rgba(90, 49, 20, 0.25);
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.18s, border-color 0.18s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(90, 49, 20, 0.06);
+      border-color: rgba(90, 49, 20, 0.45);
+    }
+
+    .btn-mint {
+      padding: 11px 20px;
+      background: #bbddd3;
+      color: #1f6357;
+      border: none;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.18s;
+    }
+
+    .btn-mint:hover { background: #a5cec3; }
+
+    /* ── Toast ─────────────────────────────────────────────────────────────── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%) translateY(12px);
+      background: #5a3114;
+      color: #fdf5ec;
+      padding: 10px 22px;
+      border-radius: 24px;
+      font-size: 13px;
+      font-weight: 600;
+      opacity: 0;
+      transition: opacity 0.22s, transform 0.22s;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* ── Card description ──────────────────────────────────────────────────── */
+    .card-desc {
+      font-size: 13px;
+      color: #5a3114;
+      opacity: 0.65;
+      line-height: 1.6;
+      padding-bottom: 4px;
+    }
+
+    /* ── Feature info box ──────────────────────────────────────────────────── */
+    .info-box {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(187, 221, 211, 0.20);
+      border: 1px solid rgba(187, 221, 211, 0.60);
+      border-radius: 10px;
+      padding: 11px 13px;
+    }
+
+    .info-box-icon {
+      font-size: 16px;
+      flex-shrink: 0;
+      line-height: 1.4;
+    }
+
+    .info-box p {
+      font-size: 12px;
+      color: #5a3114;
+      opacity: 0.70;
+      line-height: 1.6;
+    }
+
+    .info-box strong {
+      opacity: 1;
+      font-weight: 700;
+    }
+
+    /* ── Warning box ───────────────────────────────────────────────────────── */
+    .warn-box {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      background: rgba(231, 158, 174, 0.15);
+      border: 1px solid rgba(231, 158, 174, 0.45);
+      border-radius: 10px;
+      padding: 11px 13px;
+    }
+
+    .warn-box p {
+      font-size: 12px;
+      color: #5a3114;
+      opacity: 0.70;
+      line-height: 1.6;
+    }
+
+    /* ── About card ────────────────────────────────────────────────────────── */
+    #about-card {
+      background: #fdf5ec;
+      border-radius: 16px;
+      padding: 20px 24px;
+      box-shadow: 0 2px 12px rgba(90, 49, 20, 0.10);
+      border-left: 4px solid #e79eae;
+    }
+
+    #about-card p {
+      font-size: 13px;
+      color: #5a3114;
+      line-height: 1.6;
+    }
+
+    #about-card a {
+      color: #5a3114;
+      font-weight: 600;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    #about-card a:hover { color: #e79eae; }
+
+    #about-card .made-by {
+      margin-top: 8px;
+      font-size: 12px;
+      color: #5a3114;
+      opacity: 0.55;
+    }
+
+    /* ── Responsive ────────────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .form-row-inline { grid-template-columns: 1fr; }
+      #actions { flex-direction: column; }
+      .btn-primary, .btn-outline, .btn-mint { width: 100%; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <div id="page">
+
+    <!-- Header -->
+    <header id="page-header">
+      <img src="assets/siamese_icon.webp" alt="Siamese Cat Gatekeeper icon" />
+      <div>
+        <h1>Siamese Cat Gatekeeper</h1>
+        <p>Configure your focus sessions</p>
+      </div>
+    </header>
+
+    <!-- Timer Settings -->
+    <div class="card">
+      <div class="card-title">Timer Settings</div>
+
+      <div class="form-row-inline">
+        <div class="form-row">
+          <label for="work-duration">Work Duration</label>
+          <div class="input-number-wrap">
+            <input type="number" id="work-duration" min="1" max="180" value="25" />
+            <span class="input-unit">minutes</span>
+          </div>
+        </div>
+        <div class="form-row">
+          <label for="break-duration">Break Duration</label>
+          <div class="input-number-wrap">
+            <input type="number" id="break-duration" min="1" max="60" value="5" />
+            <span class="input-unit">minutes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row-inline">
+        <div class="form-row">
+          <label for="long-break-duration">Long Break Duration</label>
+          <div class="input-number-wrap">
+            <input type="number" id="long-break-duration" min="1" max="60" value="15" />
+            <span class="input-unit">minutes</span>
+          </div>
+          <span class="hint">Replaces the regular break every N sessions.</span>
+        </div>
+        <div class="form-row">
+          <label for="long-break-interval">Long Break Every</label>
+          <div class="input-number-wrap">
+            <input type="number" id="long-break-interval" min="1" max="20" value="4" />
+            <span class="input-unit">sessions</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label for="daily-goal">Daily Session Goal</label>
+        <div class="input-number-wrap">
+          <input type="number" id="daily-goal" min="0" max="20" value="0" />
+          <span class="input-unit">sessions / day</span>
+        </div>
+        <span class="hint">Set to 0 to disable. When active, a progress bar appears in the popup showing how close you are to your goal.</span>
+        <div class="info-box" style="margin-top:8px">
+          <span class="info-box-icon">💡</span>
+          <p>
+            <strong>Example:</strong> at 25 min per session, a goal of
+            <strong>6 sessions = ~2.5 hrs</strong> of focused work per day.
+            The stats page will also show how many days this week you hit your goal.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Blocking Mode -->
+    <div class="card">
+      <div class="card-title">Blocking Mode</div>
+
+      <div class="form-row">
+        <div class="mode-toggle-wrap">
+          <input type="radio" id="mode-blocklist" name="blocking-mode" value="blocklist" checked />
+          <label for="mode-blocklist">Blocklist</label>
+          <input type="radio" id="mode-whitelist" name="blocking-mode" value="whitelist" />
+          <label for="mode-whitelist">Whitelist</label>
+        </div>
+        <span class="hint" id="mode-hint">Block only the sites listed below during breaks.</span>
+      </div>
+
+      <div class="form-row">
+        <label id="domains-label" for="domains">Blocked Domains</label>
+        <textarea
+          id="domains"
+          placeholder="twitter.com&#10;reddit.com&#10;youtube.com"
+          spellcheck="false"
+          autocomplete="off"
+        ></textarea>
+        <span class="hint" id="domains-hint">One domain per line. No need to include www.</span>
+      </div>
+    </div>
+
+    <!-- Sound -->
+    <div class="card">
+      <div class="card-title">Sound</div>
+      <div class="toggle-row">
+        <label class="toggle-switch" for="sound-toggle">
+          <input type="checkbox" id="sound-toggle" />
+          <span class="toggle-track"></span>
+        </label>
+        <label class="toggle-label" for="sound-toggle">
+          Play a meow when the break overlay appears
+        </label>
+      </div>
+    </div>
+
+    <!-- Scheduled Auto-start -->
+    <div class="card">
+      <div class="card-title">Scheduled Auto-start</div>
+
+      <p class="card-desc">
+        Automatically begin a work session at a fixed time each day — no need to
+        manually start the timer every morning.
+      </p>
+
+      <div class="toggle-row">
+        <label class="toggle-switch" for="autostart-toggle">
+          <input type="checkbox" id="autostart-toggle" />
+          <span class="toggle-track"></span>
+        </label>
+        <label class="toggle-label" for="autostart-toggle">
+          Enable daily auto-start
+        </label>
+      </div>
+
+      <div id="autostart-time-row" class="form-row" style="display:none">
+        <label for="autostart-time">Start time every day</label>
+        <div class="input-number-wrap">
+          <input type="time" id="autostart-time" value="09:00" />
+        </div>
+        <div class="warn-box" style="margin-top:8px">
+          <span class="info-box-icon">⚠️</span>
+          <p>
+            <strong>Chrome must be open</strong> at the scheduled time for
+            auto-start to work. If the browser is closed, the session will
+            start the next time Chrome opens after that time.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div id="actions">
+      <button id="btn-save"  class="btn-primary">Save Settings</button>
+      <button id="btn-break" class="btn-mint">Start Break Now</button>
+      <button id="btn-reset" class="btn-outline">Reset to Defaults</button>
+    </div>
+
+    <!-- About -->
+    <div id="about-card">
+      <p>
+        This extension is inspired by the cats at
+        <a href="https://siamesecat.cafe" target="_blank" rel="noopener noreferrer">Siamese Cat Cafe</a>.
+        Take your breaks seriously — the cats insist.
+      </p>
+      <p class="made-by">Made by Siamese Cat Cafe. Not affiliated with Google or Chrome.</p>
+    </div>
+
+  </div>
+
+  <!-- Toast notification -->
+  <div id="toast"></div>
+
+  <script src="options.js"></script>
+</body>
+</html>

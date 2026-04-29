@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Siamese Cat Gatekeeper</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <header id="header">
+      <div id="header-left">
+        <img id="header-icon" src="assets/siamese_icon.webp" alt="Siamese Cat Cafe" />
+        <div id="header-info">
+          <span id="header-title">Cat Gatekeeper</span>
+          <span id="header-sub">Siamese Cat Cafe</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Mode + Timer card -->
+    <div id="mode-card">
+      <div id="mode-top">
+        <span id="mode-dot"></span>
+        <span id="mode-badge" class="badge-work">WORK</span>
+      </div>
+      <div id="time-display" aria-live="polite" aria-label="Time remaining">25:00</div>
+      <p id="mode-label">until next break</p>
+    </div>
+
+    <!-- Stats -->
+    <div id="stats-section">
+      <div class="stat-card">
+        <span class="stat-value" id="sessions-count">0</span>
+        <span class="stat-label">sessions today</span>
+      </div>
+      <div class="stat-card">
+        <span class="stat-value" id="focus-score">100%</span>
+        <span class="stat-label">focus score</span>
+      </div>
+    </div>
+
+    <!-- Daily goal progress (hidden when no goal set) -->
+    <div id="goal-section">
+      <div id="goal-header">
+        <span id="goal-label">Daily Goal</span>
+        <span id="goal-count">0 / 0</span>
+      </div>
+      <div id="goal-bar-track">
+        <div id="goal-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div id="actions">
+      <button id="btn-break" class="btn-primary">Start Break Now</button>
+      <div id="btn-row">
+        <button id="btn-options" class="btn-secondary">Settings</button>
+        <button id="btn-stats" class="btn-secondary">View Stats</button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <a
+        href="https://siamesecat.cafe"
+        target="_blank"
+        rel="noopener noreferrer"
+        id="footer-link"
+      >Siamese Cat Cafe</a>
+    </footer>
+
+  </div>
+  <script src="popup.js"></script>
+</body>
+</html>

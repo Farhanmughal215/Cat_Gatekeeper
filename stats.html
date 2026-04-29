@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weekly Stats — Siamese Cat Gatekeeper</title>
+  <link rel="stylesheet" href="stats.css" />
+</head>
+<body>
+  <div id="page">
+
+    <!-- Header -->
+    <header id="page-header">
+      <div id="header-left">
+        <img src="assets/siamese_icon.webp" alt="Siamese Cat Gatekeeper icon" id="header-icon" />
+        <div>
+          <h1>Weekly Stats</h1>
+          <p>Siamese Cat Gatekeeper</p>
+        </div>
+      </div>
+      <button id="btn-close" title="Close tab">✕</button>
+    </header>
+
+    <!-- Summary cards -->
+    <section id="summary">
+      <div class="summary-card">
+        <span class="summary-value" id="stat-total">0</span>
+        <span class="summary-label">sessions this week</span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-value" id="stat-best-day">—</span>
+        <span class="summary-label">best day</span>
+        <span class="summary-sub" id="stat-best-day-count"></span>
+      </div>
+      <div class="summary-card">
+        <span class="summary-value" id="stat-avg-focus">—</span>
+        <span class="summary-label">avg focus score</span>
+      </div>
+      <div class="summary-card" id="goal-card" hidden>
+        <span class="summary-value" id="stat-goal-days">—</span>
+        <span class="summary-label">goal days</span>
+        <span class="summary-sub" id="stat-goal-sub"></span>
+      </div>
+    </section>
+
+    <!-- Bar chart -->
+    <section id="chart-section">
+      <div class="section-title">Last 7 Days</div>
+
+      <div id="chart-wrap">
+        <div id="chart">
+          <!-- Bars injected by stats.js -->
+        </div>
+      </div>
+
+      <div id="chart-legend">
+        <span class="legend-dot dot-mint"></span><span>Sessions</span>
+        <span class="legend-dot dot-pink"></span><span>Today</span>
+      </div>
+    </section>
+
+    <!-- Score key -->
+    <section id="score-key">
+      <div class="section-title">Focus Score Guide</div>
+      <div id="score-key-row">
+        <div class="score-key-item">
+          <span class="score-swatch score-green"></span>
+          <span>≥ 80% — Great</span>
+        </div>
+        <div class="score-key-item">
+          <span class="score-swatch score-yellow"></span>
+          <span>≥ 50% — OK</span>
+        </div>
+        <div class="score-key-item">
+          <span class="score-swatch score-red"></span>
+          <span>&lt; 50% — Needs work</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Empty state (hidden when data exists) -->
+    <div id="empty-state" hidden>
+      <img src="assets/catcafe.webp" alt="Siamese cat" id="empty-cat" />
+      <p>No sessions recorded yet.</p>
+      <p>Complete your first work session to see stats here.</p>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+      <a
+        href="https://siamesecat.cafe"
+        target="_blank"
+        rel="noopener noreferrer"
+        id="footer-link"
+      >Siamese Cat Cafe</a>
+    </footer>
+
+  </div>
+  <script src="stats.js"></script>
+</body>
+</html>
